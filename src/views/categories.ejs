@@ -1,0 +1,33 @@
+<div class="container-fluid wrapper" style="padding-bottom: 20px;">
+    <h1 style="color: red;">
+        <%=parent.name.toUpperCase() %>
+    </h1>
+    <h3>
+        <%=parent.page_title %>
+    </h3>
+    <h6 style="padding-bottom: 8%;">
+        <%=parent.page_description %>
+    </h6>
+    <h3 style="color: red; font-weight:500;">Subcategories</h3>
+    <%categories.forEach(function(category) { %>
+        <div class="wrapper" style="margin-bottom: 20px;">
+            <div class=" bootstrap-card">
+                <div class="card-body">
+                    <img class="card-img-top" src="/images/<%=category.image %>">
+                    <h5 class="card-title">
+                        <%=category.page_title %>
+                    </h5>
+                    <p class="card-text">
+                        <%=category.page_description %>
+                    </p>
+                    <%if(!isParent) {%>
+                        <a href="/category/parent/<%=category.id %>" class="btn btn-success">View Products</a>
+                        <%} else {%>
+                            <a href="/product?primary_category_id=<%=category.id %>" class="btn btn-success">View
+                                Products</a>
+                            <%}%>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+</div>

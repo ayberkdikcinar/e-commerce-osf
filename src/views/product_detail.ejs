@@ -1,0 +1,55 @@
+<% const variations=product['variation_attributes']; const images=product['image_groups']; let largeImage='' ; for(const
+    image of images) { if(image['view_type']=='large' ){ largeImage=image['images'][0].link; break; } }%>
+
+
+
+
+    <div class="container" style="padding-bottom: 2%;">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <img src="/images/<%=largeImage%>" title="Light Hematite Bracelet, " class="img-fluid border">
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <label for="" style="font-weight: bold; font-size: x-large;">
+                        <%= product.name %>
+                    </label>
+                    <%-product.page_description %>
+                        <div class=" container d-flex p-2">
+                            <div class="container">
+                                <% variations.forEach(variation=> { %>
+                                    <div class="row align-items-start">
+                                        <label for="" style="font-weight: bold;">
+                                            <%=variation.name %>
+                                        </label>
+                                        <div class="button-box col-lg-12">
+                                            <%variation['values'].forEach(value=>{%>
+                                                <div class="btn-group" role="group">
+                                                    <input type="button" class="btn btn-secondary"
+                                                        style="min-width: 80px; margin: 2%;" onclick="" id=""
+                                                        name="Color" value="<%=value.name %> ">
+                                                </div>
+                                                <%})%>
+                                        </div>
+                                    </div>
+                                    <%})%>
+                            </div>
+                        </div>
+                </div>
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-6">
+                        <a href="/auth/signin" class="btn btn-success">Buy Now</a>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="font-weight: bold;">Price: <%=product.price%>
+                                <%=product.currency%>
+                                    <% %>
+                        </label>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>

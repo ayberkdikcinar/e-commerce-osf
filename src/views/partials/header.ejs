@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <% //console.log(isWomenCategoryEnabled) %>
+            <nav class="navbar navbar-expand-sm navbar-light bg-light">
+
+                <a class="navbar-brand text-success" href="/">
+                    ALIBAZON
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse"></div>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto text-center">
+
+                        <li class="nav-item <%= (isWomenCategoryEnabled) ? 'active' : 'deactive' %>">
+                            <a class="btn btn-block" style="width: 120px;" href="/category/womens">
+                                WOMEN
+                                <span class="sr-only">
+                                    (current)
+                                </span>
+                            </a>
+                        </li>
+                        <% if(!isWomenCategoryEnabled && isWomenCategoryEnabled!=null) {%>
+                            <li class="nav-item active" style="padding-left:10px;">
+                                <% } else{ %>
+                            <li class="nav-item deactive" style="padding-left:10px;">
+                                <% } %>
+                                    <a class="btn btn-block" style="width: 120px;" href="/category/mens">
+                                        MEN
+                                    </a>
+                            </li>
+
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0" style="padding-right: 20%;">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+
+                    <a href=""><i class="fa-solid fa-basket-shopping"
+                            style="font-size: x-large; color: green; padding-right: 20px;"><span
+                                class="badge badge-pill badge-danger" style="font-size:0.7rem;">2</span></i></a>
+                    <a href=""><i class="fa-solid fa-user"
+                            style="font-size: x-large; color: green; padding-right: 20px;"></i></a>
+                    <a class="btn btn-success" href="/auth/signin">Sign in</a>
+                </div>
+
+            </nav>
+            <nav aria-label="breadcrumb justify-content-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Sign In</li>
+                </ol>
+            </nav>
+    </header>
