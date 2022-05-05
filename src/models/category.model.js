@@ -3,7 +3,8 @@ const { axiosGet } = require('../services/network.service')
 const URL = '/categories';
 
 async function getAllCategories() {
-
+    const response = await axiosGet(`${URL}`)
+    return response;
 }
 
 async function getCategoryByParentId(id) {

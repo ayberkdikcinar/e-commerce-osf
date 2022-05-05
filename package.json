@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js",
+    "test": "jest",
+    "test-watch": "jest --watch"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +18,9 @@
     "express": "^4.18.1",
     "express-ejs-layouts": "^2.5.1",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "jest": "^28.0.3",
+    "supertest": "^6.2.3"
   }
 }

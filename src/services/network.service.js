@@ -22,7 +22,7 @@ async function axiosGet(URL, headers) {
     } catch (error) {
         console.log(`An Error has been occurred while retrieving data from ${URL} Error: ${error.message}`);
         console.log(error.response.status);
-        return error;
+        return error.response.data;
     }
 
 }
@@ -42,7 +42,8 @@ async function axiosPost(URL, data, headers) {
         console.log(`An Error has been occurred while posting data to ${URL} Error: ${error}`);
         console.log(error.response.status);
         console.log(error.message);
-        return error;
+        console.log(error.response.data);
+        return error.response.data;
     }
 
 }

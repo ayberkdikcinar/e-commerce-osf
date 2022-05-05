@@ -6,43 +6,40 @@
                 <div class="col-12 col-md-9 col-lg-7 col-xl-6">
                     <div class="card" style="border-radius: 15px;">
                         <div class="card-body p-5">
-                            <h2 class="text-uppercase text-center mb-5">Create an account</h2>
-
-                            <form>
-
-                                <div class="form-outline mb-4">
-                                    <input type="email" id="form3Example3cg" class="form-control form-control-lg" />
-                                    <label class="form-label" for="form3Example3cg">Your Email</label>
+                            <% if (typeof error !=='undefined' ) { %>
+                                <div class="alert alert-danger" id="alert-box">
+                                    <%= error %>
                                 </div>
+                                <% } %>
+                                    <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+                                    <form method="post" action="/auth/signup">
 
-                                <div class="form-outline mb-4">
-                                    <input type="password" id="form3Example4cg" class="form-control form-control-lg" />
-                                    <label class="form-label" for="form3Example4cg">Password</label>
-                                </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form3Example3cg">Your Name</label>
+                                            <input id="form3Example3cg" name="name"
+                                                class="form-control form-control-lg" />
 
-                                <div class="form-outline mb-4">
-                                    <input type="password" id="form3Example4cdg" class="form-control form-control-lg" />
-                                    <label class="form-label" for="form3Example4cdg">Repeat your password</label>
-                                </div>
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form3Example3cg">Your Email</label>
+                                            <input type="email" id="form3Example3cg" name="email"
+                                                class="form-control form-control-lg" />
 
-                                <div class="form-check d-flex justify-content-center mb-5">
-                                    <input class="form-check-input me-2" type="checkbox" value=""
-                                        id="form2Example3cg" />
-                                    <label class="form-check-label" for="form2Example3g">
-                                        I agree all statements in <a href="#!" class="text-body"><u>Terms of
-                                                service</u></a>
-                                    </label>
-                                </div>
+                                        </div>
 
-                                <div class="d-flex justify-content-center">
-                                    <button type="button"
-                                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
-                                </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form3Example4cg">Password</label>
+                                            <input type="password" id="form3Example4cg" name="password"
+                                                class="form-control form-control-lg" />
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="submit"
+                                                class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                                        </div>
 
-                                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a
-                                        href="/auth/signin" class="fw-bold text-body"><u>Login here</u></a></p>
-
-                            </form>
+                                        <p class="text-center text-muted mt-5 mb-0">Have already an account? <a
+                                                href="/auth/signin" class="fw-bold text-body"><u>Login here</u></a></p>
+                                    </form>
 
                         </div>
                     </div>
@@ -50,4 +47,8 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $("#alert-box").show().delay(5000).fadeOut();
+    </script>
 </section>

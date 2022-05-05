@@ -12,7 +12,7 @@ const addParamsToResponse = function (req, res, next) {
             res.locals.isWomenCategoryEnabled = null;
         }
     }
-    next();
+    return next();
 
 };
 module.exports = {

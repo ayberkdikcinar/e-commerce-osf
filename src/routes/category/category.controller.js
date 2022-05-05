@@ -12,13 +12,17 @@ async function getCategoryDataWithParent(req, res) {
     const parent = await categoryModel.getCategoryById(req.params.id);
     const isParent = helper.checkUrlForIncludeString(req.url, 'parent');
 
-    res.render('categories.ejs', { categories: categories.data, parent: parent.data, isParent: isParent });
+    if (categories.data && parent.data) {
+        res.status(200).render('categories.ejs', { categories: categories.data, parent: parent.data, isParent: isParent });
+    }
+    else {
+        res.status(400).render('not_found.ejs');
+    }
 
 }
 
 async function getAllCategories(req, res) {
     const response = await categoryModel.getAllCategories();
-    console.log(response.data)
 }
 
 module.exports = {

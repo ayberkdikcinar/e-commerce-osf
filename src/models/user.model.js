@@ -4,7 +4,6 @@ const URL = '/auth';
 
 async function signIn(user) {
 
-
     return await axiosPost(`${URL}/signin`, user);
 }
 
