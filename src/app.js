@@ -4,9 +4,9 @@ const bodyParser = require('body-parser');
 const expressLayout = require('express-ejs-layouts');
 const app = express();
 const { addParamsToResponse } = require('./middlewares/helper.middleware')
-const productRouter = require('./routes/product.router')
-const authRouter = require('./routes/auth.router')
-const categoryRouter = require('./routes/category.router')
+const productRouter = require('./routes/product/product.router')
+const authRouter = require('./routes/auth/auth.router')
+const categoryRouter = require('./routes/category/category.router')
 const mainRouter = require('./routes/main.router')
 
 app.use(bodyParser.urlencoded({ extended: false }));

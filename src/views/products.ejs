@@ -1,46 +1,90 @@
 <div class="container-fluid" style="padding-bottom: 2%;">
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" id="content">
         <%products.forEach((product)=> { %>
-            <%product['image_groups'].forEach(element=> { %>
-                <%if(element['view_type']=='large'){ %>
-                    <%product.image=element['images'][0].link%>
-                        <%}})%>
-                            <div class="col-sm-offset-1" style="padding:2%">
-                                <h5 class="card-title">
-                                    <%=product.name %>
-                                </h5>
-                                <div class="card" style="width: 40rem;">
-                                    <img class="card-img-top" src="\images\<%=product.image%> ">
-                                    <div class="card-body">
-                                        <p class="card-text-product">
-                                            <%-product.short_description %>
-                                        </p>
-                                        <div class="row">
-                                            <div class="col-md-6 text-center" style="margin-top: 0.7em;">
-                                                <h6>Price:<%=product.price%>
-                                                        <%= product.currency %>
-                                                </h6>
-                                            </div>
-                                            <div class="col-md-6 text-center">
-                                                <a href="/product/single?primary_category_id=<%=product.primary_category_id%>&id=<%=product.id%>"
-                                                    class="btn btn-success">More Info</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="col-sm-offset-1" style="padding:2%">
+                <h5 class="card-title">
+                    <%=product.name %>
+                </h5>
+                <div class="card" style="width: 40rem;">
+                    <img class="card-img-top" src="\images\<%=product.image%> ">
+                    <div class="card-body">
+                        <p class="card-text-product">
+                            <%=product.page_description%>
+                        </p>
+                        <div class="row">
+                            <div class="col-md-6 text-center" style="margin-top: 0.7em;">
+                                <h6>Price:<%=product.price%>
+                                        <%= product.currency %>
+                                </h6>
                             </div>
-                            <% }); %>
+                            <div class="col-md-6 text-center">
+                                <a href="/product/single?primary_category_id=<%=product.primary_category_id%>&id=<%=product.id%>"
+                                    class="btn btn-success">More Info</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
     </div>
-    <div class="row">
+    <div class="row <%= products.length<25 ? 'hidden' : '' %>" id="more_result_row">
         <div class="container" style="width:200px; padding-left: 2%;">
-            <a href="#" class="btn btn-primary">More Results</a>
+            <a class="btn btn-primary" id='more_results'>More Results</a>
         </div>
     </div>
 </div>
 
 
 <script>
-    var ajax = XMLHttpRequest();
+    let page = 2;
+    $("#more_results").on('click', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'GET',
+            url: '/product/paginate',
+            data: 'primary_category_id=womens-clothing-tops&page=' + page,
+            cache: false,
+            success: addProductsViaDOM,
+            error: function (result) {
+                var rowOfButton = document.getElementById('more_result_row');
+                rowOfButton.classList.add('hidden');
+            },
 
+        });
+    })
+
+    function addProductsViaDOM(products) {
+        for (const product of products) {
+            var div = document.getElementById('content');
+            var divWillBeAdded = document.createElement("div");
+            divWillBeAdded.className = "col-sm-offset-1";
+            divWillBeAdded.style.padding = '2%';
+            divWillBeAdded.innerHTML = `<h5 class="card-title">
+                                    ${product.name}
+                                </h5>
+                                <div class="card" style="width: 40rem;">
+                                    <img class="card-img-top" src="/images/${product.image}">
+                                    <div class="card-body">
+                                        <p class="card-text-product">
+                                             ${product.page_description}
+                                        </p>
+                                        <div class="row">
+                                            <div class="col-md-6 text-center" style="margin-top: 0.7em;">
+                                                <h6>Price:${product.price}
+                                                        ${product.currency}
+                                                </h6>
+                                            </div>
+                                            <div class="col-md-6 text-center">
+                                                <a href="/product/single?primary_category_id=${product.primary_category_id}&id=${product.id}"
+                                                    class="btn btn-success">More Info</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+
+            div.append(divWillBeAdded);
+        }
+        page++;
+    }
 </script>

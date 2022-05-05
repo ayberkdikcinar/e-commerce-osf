@@ -20,7 +20,8 @@ async function axiosGet(URL, headers) {
         return response;
 
     } catch (error) {
-        console.log(`An Error has been occurred while retrieving data from ${URL} Error: ${error}`);
+        console.log(`An Error has been occurred while retrieving data from ${URL} Error: ${error.message}`);
+        console.log(error.response.status);
         return error;
     }
 
@@ -28,17 +29,19 @@ async function axiosGet(URL, headers) {
 
 async function axiosPost(URL, data, headers) {
     try {
+        const dataWithSecret = addSecretToData(data);
         const response = await instance({
             method: 'post',
             url: URL,
-            data: data,
+            data: dataWithSecret,
             headers: headers
         });
-
         return response;
 
     } catch (error) {
         console.log(`An Error has been occurred while posting data to ${URL} Error: ${error}`);
+        console.log(error.response.status);
+        console.log(error.message);
         return error;
     }
 
@@ -72,8 +75,6 @@ module.exports = {
     axiosGet,
     axiosPost,
     axiosDelete,
-    addSecretToData,
-
 }
 
 

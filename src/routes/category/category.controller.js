@@ -1,5 +1,5 @@
-const categoryModel = require('../models/category.model')
-const helper = require('../services/helper')
+const categoryModel = require('../../models/category.model')
+const helper = require('../../services/helper')
 
 async function getCategoryById(req, res) {
     const response = await categoryModel.getCategoryById(req.params.id);

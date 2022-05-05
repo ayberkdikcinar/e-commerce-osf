@@ -7,5 +7,4 @@ async function renderIndexWithInitialCategoryData(req, res) {
 
 module.exports = {
     renderIndexWithInitialCategoryData,
-
 }
