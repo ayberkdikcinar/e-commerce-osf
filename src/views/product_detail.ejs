@@ -1,9 +1,6 @@
 <% const variations=product['variation_attributes']; const images=product['image_groups']; let largeImage='' ; for(const
     image of images) { if(image['view_type']=='large' ){ largeImage=image['images'][0].link; break; } }%>
 
-
-
-
     <div class="container" style="padding-bottom: 2%;">
         <div class="row justify-content-center">
             <div class="col-md-4">
@@ -38,7 +35,7 @@
                 </div>
                 <div class="row d-flex justify-content-between">
                     <div class="col-md-6">
-                        <a href="/auth/signin" class="btn btn-success">Buy Now</a>
+                        <a href="#" class="btn btn-success" id="buy_now">Buy Now</a>
                     </div>
                     <div class="col-md-6">
                         <label style="font-weight: bold;">Price: <%=product.price%>
@@ -49,7 +46,32 @@
 
                 </div>
 
-
             </div>
         </div>
     </div>
+
+    <script>
+        let page = 2;
+        $("#buy_now").on('click', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/cart/addItem',
+                data: {
+                    variantId: '013742002669',
+                    quantity: '1',
+                    productId: '25720027',
+                },
+                cache: false,
+                success: () => {
+                    alert('başarılı');
+                    window.location('/cart');
+                },
+                error: function (result) {
+
+                    alert('hatalı');
+                },
+
+            });
+        })
+    </script>

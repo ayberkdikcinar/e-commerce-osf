@@ -6,33 +6,39 @@
                 <div class="col-12 col-md-9 col-lg-7 col-xl-6">
                     <div class="card" style="border-radius: 15px;">
                         <div class="card-body p-5">
-                            <h2 class="text-uppercase text-center mb-5">Sign In</h2>
-
-                            <form action="/auth/signin" method="post">
-
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form3Example3cg">Your Email</label>
-                                    <input type="email" id="form3Example3cg" name="email"
-                                        class="form-control form-control-lg" />
-
+                            <% if (typeof error !=='undefined' ) { %>
+                                <div class="alert alert-danger" id="alert-box">
+                                    <%= error %>
                                 </div>
+                                <% } %>
+                                    <h2 class="text-uppercase text-center mb-5">Sign In</h2>
 
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form3Example4cg">Password</label>
-                                    <input type="password" id="form3Example4cg" name="password"
-                                        class="form-control form-control-lg" />
+                                    <form action="/auth/signin" method="post">
 
-                                </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form3Example3cg">Your Email</label>
+                                            <input type="email" id="form3Example3cg" name="email"
+                                                class="form-control form-control-lg" />
 
-                                <div class="d-flex justify-content-center">
-                                    <button type="submit"
-                                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Login</button>
-                                </div>
+                                        </div>
 
-                                <p class="text-center text-muted mt-5 mb-0">Dont you have an account? <a
-                                        href="/auth/signup" class="fw-bold text-body"><u>Register here</u></a></p>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form3Example4cg">Password</label>
+                                            <input type="password" id="form3Example4cg" name="password"
+                                                class="form-control form-control-lg" />
 
-                            </form>
+                                        </div>
+
+                                        <div class="d-flex justify-content-center">
+                                            <button type="submit"
+                                                class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Login</button>
+                                        </div>
+
+                                        <p class="text-center text-muted mt-5 mb-0">Dont you have an account? <a
+                                                href="/auth/signup" class="fw-bold text-body"><u>Register here</u></a>
+                                        </p>
+
+                                    </form>
 
                         </div>
                     </div>
@@ -40,4 +46,7 @@
             </div>
         </div>
     </div>
+    <script>
+        $("#alert-box").show().delay(5000).fadeOut();
+    </script>
 </section>

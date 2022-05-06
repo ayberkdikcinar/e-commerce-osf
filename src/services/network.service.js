@@ -6,40 +6,43 @@ const instance = axios.create({
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
-
-async function axiosGet(URL, headers) {
+//{ 'Authorization': `Bearer ${req.cookies.access_token}` }
+async function axiosGet(URL, token) {
     try {
+
         const response = await instance({
             url: URL,
             method: "get",
             params: {
                 secretKey: SECRET_KEY
             },
-            headers: headers
+            headers: { 'Authorization': `Bearer ${token}` }
         });
         return response;
 
     } catch (error) {
         console.log(`An Error has been occurred while retrieving data from ${URL} Error: ${error.message}`);
         console.log(error.response.status);
+        console.log('axiosget içi');
         return error.response.data;
     }
 
 }
 
-async function axiosPost(URL, data, headers) {
+async function axiosPost(URL, data, token) {
     try {
         const dataWithSecret = addSecretToData(data);
         const response = await instance({
             method: 'post',
             url: URL,
             data: dataWithSecret,
-            headers: headers
+            headers: { 'Authorization': `Bearer ${token}` }
         });
         return response;
 
     } catch (error) {
         console.log(`An Error has been occurred while posting data to ${URL} Error: ${error}`);
+        console.log('axiospost içi');
         console.log(error.response.status);
         console.log(error.message);
         console.log(error.response.data);

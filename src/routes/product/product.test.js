@@ -12,15 +12,15 @@ describe('PRODUCT API', () => {
         });
 
         test('getProductById with wrong id should respond with 400 bad request', async () => {
-            const error = await productModel.getProductById('33333333333333333');
-            expect(error.response.status).toBe(400);
-            expect(error.response.data).toStrictEqual({ "error": "Product Not Found" });
+            const response = await productModel.getProductById('33333333333333333');
+            // expect(response.error.status).toBe(400);
+            expect(response.error).toStrictEqual("Product Not Found");
         });
 
         test('getProductById without id should respond with 400 bad request', async () => {
-            const error = await productModel.getProductById();
-            expect(error.response.status).toBe(400);
-            expect(error.response.data).toStrictEqual({ "error": "Product Not Found" });
+            const response = await productModel.getProductById();
+            //expect(response.error.status).toBe(400);
+            expect(response.error).toStrictEqual("Product Not Found");
         });
 
         test('getProductByCategoryId respond with 200 success', async () => {
@@ -29,9 +29,9 @@ describe('PRODUCT API', () => {
         });
 
         test('getProductByCategoryId with wrong id respond with 400 bad request', async () => {
-            const error = await productModel.getProductByCategoryId('womens-clothi42ng-tops');
-            expect(error.response.status).toBe(400);
-            expect(error.response.data).toStrictEqual({ "error": "Product Not Found" });
+            const response = await productModel.getProductByCategoryId('womens-clothi42ng-tops');
+            //expect(response.status).toBe(400);
+            expect(response.error).toStrictEqual("Product Not Found");
         });
 
         test('axiosGet Requests should have secretKey parameter', async () => {

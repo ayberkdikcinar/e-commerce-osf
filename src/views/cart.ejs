@@ -1,0 +1,9 @@
+<% if (typeof error !=='undefined' ) { %>
+    <div class="alert alert-danger" id="alert-box">
+        <%= error %>
+    </div>
+    <% }%>
+
+        <% for(let i=0; i<items.length; i++){ %>
+            <%= items[i].productId; %>
+                <% } %>

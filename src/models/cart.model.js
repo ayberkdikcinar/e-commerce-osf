@@ -1,17 +1,41 @@
 const { axiosGet, axiosPost } = require('../services/network.service')
 
-async function getCart() {
-    //get
+const URL = '/cart'
+async function getCart(token) {
+    const response = await axiosGet(URL, token);
+    if (response.error) {
+        throw response.error;
+    }
+    return response;
 }
 
-async function addItem() {
-    //post
+async function addItem(item, token) {
+    const response = await axiosPost(`${URL}/addItem`, item, token);
+    if (response.error) {
+        throw response.error;
+    }
+    return response;
 }
 
-async function removeItem() {
-    //post ?? delete
+async function removeItem(item, token) {
+    const response = await axiosPost(`${URL}/removeItem`, item, token);
+    if (response.error) {
+        throw response.error;
+    }
+    return response;
 }
 
-async function changeQuantityOfItem() {
-    //post
+async function changeQuantityOfItem(data, token) {
+    const response = await axiosPost(`${URL}/changeItemQuantity`, data, token);
+    if (response.error) {
+        throw response.error;
+    }
+    return response;
+}
+
+module.exports = {
+    getCart,
+    addItem,
+    removeItem,
+    changeQuantityOfItem,
 }

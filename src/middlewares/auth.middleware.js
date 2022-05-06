@@ -1,26 +1,15 @@
 const authCheck = async (req, res, next) => {
     try {
-        let token = req.header('Authorization');
-        if (token) {
-
-            token = token.replace('Bearer ', '');
-
-            const result = jwt.verify(token, process.env.SECRET_KEY_TOKEN);
-            if (result) {
-                //req.user;
-                return next();
-            }
-
-            return res.json({ 'message': 'Token is not valid.' });
+        if (req.cookies.access_token) {
+            return next();
         }
         else {
-            throw createError(400, 'UnAuthorized.');
-            //res.json({message:'Authorization must!'})
+            res.json('u must authorized');
         }
-
-
     } catch (err) {
         next(err);
     }
 }
-module.exports = authCheck
+module.exports = {
+    authCheck
+}

@@ -9,27 +9,49 @@ function renderSignUpPage(req, res) {
 }
 
 async function postSignIn(req, res) {
-    const user = {
-        email: req.body.email,
-        password: req.body.password,
+    try {
+        const user = {
+            email: req.body.email,
+            password: req.body.password,
+        }
+        const response = await userModel.signIn(user);
+
+        res.cookie('access_token', response.data.token, { httpOnly: true, secure: true, maxAge: 3600000 });
+        req.session.user = {
+            name: response.data.user.name,
+            email: response.data.user.email,
+            createdAt: response.data.user.createdAt,
+        }
+        res.redirect('/');
+
+    } catch (error) {
+        res.render('signin', { error: error })
     }
-    const response = await userModel.signIn(user);
-    console.log(response.data.token);
+
+
 }
 
 async function postSignUp(req, res) {
-    const user = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
+    try {
+        const user = {
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+        }
+        const response = await userModel.signUp(user);
+
+        res.cookie('access_token', response.data.token, { httpOnly: true, secure: true, maxAge: 3600000 });
+        req.session.user = {
+            name: response.data.user.name,
+            email: response.data.user.email,
+            createdAt: response.data.user.createdAt,
+        }
+        res.redirect('/');
+
+    } catch (error) {
+        res.render('signup', { error: error })
     }
-    const response = await userModel.signUp(user);
-    if (response.error) {
-        res.render('signup', { error: response.error })
-    }
-    else {
-        console.log(response.data.token);
-    }
+
 
 }
 

@@ -15,6 +15,18 @@ const addParamsToResponse = function (req, res, next) {
     return next();
 
 };
+
+const addSignedInfo = function (req, res, next) {
+    if (req.cookies.access_token) {
+        res.locals.isSignedIn = true;
+    }
+    else {
+        res.locals.isSignedIn = false;
+    }
+    return next();
+}
+
 module.exports = {
     addParamsToResponse,
+    addSignedInfo,
 }
