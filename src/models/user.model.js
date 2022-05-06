@@ -4,16 +4,16 @@ const URL = '/auth';
 
 async function signIn(user) {
     const response = await axiosPost(`${URL}/signin`, user);
-    if (response.error) {
-        throw response.error;
+    if (!response.status.toString().startsWith('20')) {
+        throw response.data.error;
     }
     return response;
 }
 
 async function signUp(user) {
     const response = await axiosPost(`${URL}/signup`, user);
-    if (response.error) {
-        throw response.error;
+    if (!response.status.toString().startsWith('20')) {
+        throw response.data.error;
     }
     return response;
 }

@@ -4,24 +4,26 @@ const URL = '/categories';
 
 async function getAllCategories() {
     const response = await axiosGet(`${URL}`)
-    if (response.error) {
-        throw response.error;
+    if (!response.status.toString().startsWith('20')) {
+        throw response.data.error;
     }
     return response;
 }
 
 async function getCategoryByParentId(id) {
     const response = await axiosGet(`${URL}/parent/${id}`)
-    if (response.error) {
-        throw response.error;
+    console.log(response.data);
+    if (!response.status.toString().startsWith('20')) {
+        throw response.data.error;
     }
+    //console.log('sa');
     return response;
 }
 
 async function getCategoryById(id) {
     const response = await axiosGet(`${URL}/${id}`)
-    if (response.error) {
-        throw response.error;
+    if (!response.status.toString().startsWith('20')) {
+        throw response.data.error;
     }
     return response;
 }

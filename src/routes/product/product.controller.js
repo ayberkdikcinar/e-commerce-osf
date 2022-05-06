@@ -16,7 +16,7 @@ async function renderProductPageWithProducts(req, res, next) {
 
     try {
         const response = await productModel.getProductByCategoryId(req.query.primary_category_id, req.query.page);
-        addImageLinkExplicitly(response.data);
+        productModel.addImageLinkExplicitly(response.data);
         res.render('products', { products: response.data })
 
     } catch (error) {
@@ -29,7 +29,7 @@ async function getProductByCategoryId(req, res, next) {
 
     try {
         const response = await productModel.getProductByCategoryId(req.query.primary_category_id, req.query.page);
-        addImageLinkExplicitly(response.data);
+        productModel.addImageLinkExplicitly(response.data);
         res.json(response.data);
 
     } catch (error) {
@@ -38,22 +38,6 @@ async function getProductByCategoryId(req, res, next) {
 
 
 
-}
-
-//assign image path directly to product for better usage in the view.
-function addImageLinkExplicitly(products) {
-    if (products) {
-        for (let i = 0; i < products.length; i++) {
-            for (const image of products[i]['image_groups']) {
-                if (image['view_type'] == 'large') {
-                    Object.assign(products[i], {
-                        image: image['images'][0].link,
-                    });
-                    break;
-                }
-            }
-        }
-    }
 }
 
 module.exports = {

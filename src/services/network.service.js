@@ -22,9 +22,19 @@ async function axiosGet(URL, token) {
 
     } catch (error) {
         console.log(`An Error has been occurred while retrieving data from ${URL} Error: ${error.message}`);
-        console.log(error.response.status);
-        console.log('axiosget içi');
-        return error.response.data;
+        //console.log(error.config);
+        if (error.response) {
+            //console.log(error.response);
+            return error.response;
+
+        } else if (error.request) {
+            //console.log(error.request);
+            return error.request;
+
+        } else {
+            //console.log(error.message);
+            return error.message;
+        }
     }
 
 }
@@ -42,28 +52,48 @@ async function axiosPost(URL, data, token) {
 
     } catch (error) {
         console.log(`An Error has been occurred while posting data to ${URL} Error: ${error}`);
-        console.log('axiospost içi');
-        console.log(error.response.status);
-        console.log(error.message);
-        console.log(error.response.data);
-        return error.response.data;
+        if (error.response) {
+            //console.log(error.response);
+            return error.response;
+
+        } else if (error.request) {
+            //console.log(error.request);
+            return error.request;
+
+        } else {
+            //console.log(error.message);
+            return error.message;
+        }
     }
 
 }
 
-async function axiosDelete(URL, headers) {
+async function axiosDelete(URL, data, token) {
     try {
+        const dataWithSecret = addSecretToData(data);
         const response = await instance({
             method: 'delete',
             url: URL,
-            headers: headers
+            data: dataWithSecret,
+            headers: { 'Authorization': `Bearer ${token}` }
         });
 
         return response;
 
     } catch (error) {
         console.log(`An Error has been occurred while deleting data from ${URL} Error: ${error}`);
-        return error;
+        console.log(error.config);
+        if (error.response) {
+
+            return error.response;
+
+        } else if (error.request) {
+
+            return error.request;
+
+        } else {
+            return error.message;
+        }
     }
 }
 

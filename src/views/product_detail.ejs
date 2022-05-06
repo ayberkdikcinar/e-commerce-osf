@@ -51,7 +51,7 @@
     </div>
 
     <script>
-        let page = 2;
+
         $("#buy_now").on('click', function (e) {
             e.preventDefault();
             $.ajax({
@@ -63,7 +63,7 @@
                     productId: '25720027',
                 },
                 cache: false,
-                success: () => {
+                success: (result) => {
                     alert('başarılı');
                     window.location('/cart');
                 },
