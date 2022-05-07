@@ -23,7 +23,9 @@ describe('PRODUCT MODEL', () => {
             await productModel.getProductById();
         } catch (error) {
             expect(error).toStrictEqual('Product Not Found');
+
         }
+
     });
 
     test('getProductByCategoryId respond with 200 success', async () => {

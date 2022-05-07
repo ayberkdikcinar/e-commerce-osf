@@ -1,6 +1,6 @@
 const cartModel = require('../../models/cart.model')
 
-async function renderCartPage(req, res) {
+async function renderCartPage(req, res, next) {
     try {
         const response = await cartModel.getCart(req.cookies.access_token);
 
@@ -12,18 +12,20 @@ async function renderCartPage(req, res) {
 }
 
 async function addItem(req, res) {
-    const item = req.body;
-    const response = await cartModel.addItem(item, req.cookies.access_token);
+    try {
+        const item = req.body;
+        const response = await cartModel.addItem(item, req.cookies.access_token);
 
-    if (response.data) {
+
         res.status(201).json(response.data);
+
+    } catch (error) {
+        res.status(400).json(error);
     }
-    else {
-        res.status(500).json('add item failed');
-    }
+
 }
 
-async function changeQuantityOfItem(req, res) {
+async function changeQuantityOfItem(req, res, next) {
     const data = req.body;
     const response = await cartModel.changeQuantityOfItem(data, req.cookies.access_token);
     res.json(JSON.stringify(response));

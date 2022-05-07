@@ -9,12 +9,12 @@ describe('AXIOS API', () => {
 
     test('axiosPost Requests should have secretKey in body and should have jwt in header', async () => {
         const user = {
-            email: "test",
-            password: "test",
+            email: "test431413",
+            password: "test434141",
         }
         const response = await axiosPost('/auth/signIn', user, 'testToken');
-        console.log(response);
         expect(JSON.parse(response.config.data)).toHaveProperty('secretKey');
+        expect(response.config.headers).toHaveProperty('Authorization');
     });
 
 })

@@ -31,6 +31,9 @@
     <div class="row <%= products.length<25 ? 'hidden' : '' %>" id="more_result_row">
         <div class="container" style="width:200px; padding-left: 2%;">
             <a class="btn btn-outline-primary" id='more_results'>More Results</a>
+            <label for="more_results" id='loadingmessage' style='display:none'>
+                <img src='/images/ajax-loader.gif' />
+            </label>
         </div>
     </div>
 </div>
@@ -39,6 +42,7 @@
 <script>
     let page = 2;
     $("#more_results").on('click', function (e) {
+        $('#loadingmessage').show();
         e.preventDefault();
         $.ajax({
             type: 'GET',
@@ -49,12 +53,14 @@
             error: function (result) {
                 var rowOfButton = document.getElementById('more_result_row');
                 rowOfButton.classList.add('hidden');
+                $('#loadingmessage').hide();
             },
 
         });
     })
 
     function addProductsViaDOM(products) {
+        $('#loadingmessage').hide();
         for (const product of products) {
             var div = document.getElementById('content');
             var divWillBeAdded = document.createElement("div");

@@ -4,7 +4,10 @@ const authCheck = async (req, res, next) => {
             return next();
         }
         else {
-            res.json('u must authorized');
+
+            return res.render('signin');
+
+            //res.json('you must be authorized');
         }
     } catch (err) {
         next(err);
