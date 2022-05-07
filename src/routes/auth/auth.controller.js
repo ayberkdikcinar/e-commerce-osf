@@ -27,8 +27,6 @@ async function postSignIn(req, res) {
     } catch (error) {
         res.render('signin', { error: error })
     }
-
-
 }
 
 async function postSignUp(req, res) {
@@ -51,9 +49,21 @@ async function postSignUp(req, res) {
     } catch (error) {
         res.render('signup', { error: error })
     }
-
-
 }
+
+async function signOut(req, res) {
+    try {
+
+        req.session.destroy();
+        res.clearCookie('access_token');
+        res.redirect('/');
+
+    } catch (error) {
+        next(error);
+    }
+
+
+};
 
 
 module.exports = {
@@ -61,4 +71,5 @@ module.exports = {
     renderSingInPage,
     postSignIn,
     postSignUp,
+    signOut,
 }

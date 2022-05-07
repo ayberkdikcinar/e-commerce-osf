@@ -5,7 +5,7 @@ const URL = '/auth';
 async function signIn(user) {
     const response = await axiosPost(`${URL}/signin`, user);
     if (!response.status.toString().startsWith('20')) {
-        throw response.data.error;
+        throw response;
     }
     return response;
 }
@@ -13,7 +13,7 @@ async function signIn(user) {
 async function signUp(user) {
     const response = await axiosPost(`${URL}/signup`, user);
     if (!response.status.toString().startsWith('20')) {
-        throw response.data.error;
+        throw response;
     }
     return response;
 }

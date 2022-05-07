@@ -5,7 +5,7 @@ const URL = '/products/product_search';
 async function getProductById(id, page) {
     const response = await axiosGet(`${URL}?id=${id}&page=${page}`)
     if (!response.status.toString().startsWith('20')) {
-        throw response.data.error;
+        throw response;
     }
     return response;
 
@@ -14,7 +14,7 @@ async function getProductById(id, page) {
 async function getProductByCategoryId(id, page) {
     const response = await axiosGet(`${URL}?primary_category_id=${id}&page=${page}`)
     if (!response.status.toString().startsWith('20')) {
-        throw response.data.error;
+        throw response;
     }
     return response;
 }

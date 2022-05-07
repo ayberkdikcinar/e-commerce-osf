@@ -35,6 +35,7 @@ app.use(addSignedInfo);
 app.use(expressSession({
     secret: 'test',
     resave: false,
+    cookie: { maxAge: 3600000 },
     saveUninitialized: true,
 }));
 
