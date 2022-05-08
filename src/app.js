@@ -17,6 +17,7 @@ const categoryRouter = require('./routes/category/category.router')
 const orderRouter = require('./routes/order/order.router')
 const userRouter = require('./routes/user/user.router')
 const cartRouter = require('./routes/cart/cart.router')
+const wishListRouter = require('./routes/wishlist/wishlist.router')
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
@@ -32,14 +33,6 @@ app.use(expressLayout);
 app.use(addParamsToResponse);
 app.use(addSignedInfo);
 
-app.use(expressSession({
-    secret: 'test',
-    resave: false,
-    cookie: { maxAge: 3600000 },
-    saveUninitialized: true,
-}));
-
-
 app.use('/', mainRouter);
 app.use('/auth', authRouter);
 app.use('/category', categoryRouter);
@@ -47,6 +40,7 @@ app.use('/product', productRouter);
 app.use('/user', authCheck, userRouter);
 app.use('/order', authCheck, orderRouter);
 app.use('/cart', authCheck, cartRouter);
+app.use('/wishlist', authCheck, wishListRouter);
 app.use(error.errorHandling);
 app.use(error.notFoundPage);
 

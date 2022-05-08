@@ -1,16 +1,15 @@
-const cartModel = require('../../models/cart.model')
+const wishListModel = require('../../models/wishlist.model')
 const productModel = require('../../models/product.model')
 
-async function renderCartPage(req, res, next) {
+async function renderWishPage(req, res, next) {
     try {
-        let totalAmount = 0;
 
-        const responseCart = await cartModel.getCart(req.cookies.access_token);
-
-        if (!responseCart.status || !responseCart.status.toString().startsWith('20')) {
-            throw responseCart;
+        const responseWish = await wishListModel.getWishlist(req.cookies.access_token);
+        console.log(responseWish);
+        if (!responseWish.status || !responseWish.status.toString().startsWith('20')) {
+            throw responseWish;
         }
-        const items = responseCart.data.items;
+        const items = responseWish.data.items;
 
         for (let i = 0; i < items.length; i++) {
             const product = await productModel.getProductById(items[i].productId);
@@ -18,6 +17,7 @@ async function renderCartPage(req, res, next) {
             if (!product.status || !product.status.toString().startsWith('20')) {
                 throw product;
             }
+
             productModel.addImageLinkExplicitly(product.data[0]);
 
             Object.assign(items[i], {
@@ -25,15 +25,15 @@ async function renderCartPage(req, res, next) {
                 product_description: product.data[0].page_description,
                 product_image: product.data[0].image,
             });
-            totalAmount += items[i]['variant'].price;
+
         }
 
-        res.render('cart', { items: items, totalAmount: totalAmount })
+        res.render('wish', { items: items })
 
     } catch (error) {
         if (error.status == 400) {
-            if (error.data.error == 'There is no cart created for this user') {
-                res.render('cart', { error: "Your cart is empty. Please add some items to your cart." });
+            if (error.data.error == 'There is no wishlist created for this user') {
+                res.render('cart', { error: "Your wishlist is empty. Please add some items to your wishlist." });
             } else {
                 res.render('cart', { error: error.data.error });
             }
@@ -48,7 +48,8 @@ async function renderCartPage(req, res, next) {
 async function addItem(req, res) {
     try {
         const item = req.body;
-        const response = await cartModel.addItem(item, req.cookies.access_token);
+        const response = await wishListModel.addItem(item, req.cookies.access_token);
+
         if (!response.status || !response.status.toString().startsWith('20')) {
             throw response;
         }
@@ -60,19 +61,9 @@ async function addItem(req, res) {
 
 }
 
-async function changeQuantityOfItem(req, res) {
-    try {
-        const data = req.body;
-        const response = await cartModel.changeQuantityOfItem(data, req.cookies.access_token);
-        if (!response.status || !response.status.toString().startsWith('20')) {
-            throw response;
-        }
-        res.status(200).json(response.data);
-
-    } catch (error) {
-        res.status(400).json(error.data.error);
-    }
-
+async function changeQuantityOfItem(req, res, next) {
+    const data = req.body;
+    const response = await wishListModel.changeQuantityOfItem(data, req.cookies.access_token);
     //res.json(JSON.stringify(response));
 }
 
@@ -82,12 +73,11 @@ async function removeItem(req, res) {
             productId: req.body.productId,
             variantId: req.body.variantId,
         }
-        const response = await cartModel.removeItem(item, req.cookies.access_token);
-
+        const response = await wishListModel.removeItem(item, req.cookies.access_token);
         if (!response.status || !response.status.toString().startsWith('20')) {
             throw response;
         }
-        res.redirect('/cart');
+        res.redirect('/wishlist');
 
     } catch (error) {
         res.status(400).json(error.data.error);
@@ -97,7 +87,7 @@ async function removeItem(req, res) {
 }
 
 module.exports = {
-    renderCartPage,
+    renderWishPage,
     addItem,
     changeQuantityOfItem,
     removeItem,

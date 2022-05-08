@@ -1,158 +1,209 @@
 <% const variations=product['variation_attributes']; const variants=product['variants']; const
     images=product['image_groups']; let largeImage='' ; for(const image of images) { if(image['view_type']=='large' ){
     largeImage=image['images'][0].link; break; } }%>
-    <% console.log(product) %>
-        <div class="container" style="padding-bottom: 2%;">
-            <div class="row justify-content-center">
-                <div class="col-md-4">
-                    <img src="/images/<%=largeImage%>" title="Light Hematite Bracelet, " class="img-fluid border">
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <label for="" style="font-weight: bold; font-size: x-large;">
-                            <%= product.name %>
-                                <input type="hidden" id="product_id" name="<%=product.id%>">
-                        </label>
-                        <%-product.page_description %>
-                            <div class=" container d-flex p-2">
-                                <div class="container">
-                                    <% variations.forEach(variation=> { %>
-                                        <div class="row align-items-start">
-                                            <label for="" style="font-weight: bold;">
-                                                <%=variation.name %>
-                                            </label>
-                                            <div class="button-box col-lg-12">
-                                                <%variation['values'].forEach(value=>{%>
-                                                    <div class="btn-group" role="group">
-                                                        <input type="radio" class="btn-check"
-                                                            onclick="setValue(this.name,this.id)" id="<%=value.value%>"
-                                                            name="<%=variation.name%>" value="<%=value.name%>">
-                                                        <label class="btn btn-outline-danger" for="<%=value.value%>">
-                                                            <%=value.name%>
-                                                        </label>
-                                                    </div>
-                                                    <%})%>
-                                            </div>
+
+    <div class="container" style="padding-bottom: 2%;">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <img src="/images/<%=largeImage%>" title="Light Hematite Bracelet, " class="img-fluid border">
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <label for="" style="font-weight: bold; font-size: x-large;">
+                        <%= product.name %>
+                            <input type="hidden" id="product_id" name="<%=product.id%>">
+                    </label>
+                    <%-product.page_description %>
+                        <div class=" container d-flex p-2">
+                            <div class="container">
+                                <% variations.forEach(variation=> { %>
+                                    <div class="row align-items-start">
+                                        <label for="" style="font-weight: bold;">
+                                            <%=variation.name %>
+                                        </label>
+                                        <div class="button-box col-lg-12">
+                                            <%variation['values'].forEach(value=>{%>
+                                                <div class="btn-group" role="group">
+                                                    <input type="radio" class="btn-check"
+                                                        onclick="setValue(this.name,this.id)" id="<%=value.value%>"
+                                                        name="<%=variation.name%>" value="<%=value.name%>">
+                                                    <label class="btn btn-outline-danger" for="<%=value.value%>">
+                                                        <%=value.name%>
+                                                    </label>
+                                                </div>
+                                                <%})%>
                                         </div>
-                                        <%})%>
-                                </div>
+                                    </div>
+                                    <%})%>
                             </div>
-                    </div>
-                    <div class="row d-flex justify-content-between" name="buy_price_row">
-                        <div class="col-md-6">
-                            <% if(typeof isSignedIn !=='undefined' && isSignedIn!=false){ %>
-                                <a class="btn btn-success" name="buy_now" id="buy_now">Buy Now</a>
-                                <label for="buy_now" id='loadingmessage' style='display:none'>
-                                    <img src='/images/ajax-loader.gif' />
-                                </label>
-                                <% }else{ %>
-                                    <a class="btn btn-success" href="/auth/signin">Buy Now</a>
-                                    <% } %>
                         </div>
-                        <div class="col-md-6">
-                            <label style="font-weight: bold;">Price: <%=product.price%>
-                                    <%=product.currency%>
+                </div>
+                <div class="row d-flex justify-content-between" name="buy_price_row">
+                    <div class="col-md-6">
+                        <% if(typeof isSignedIn !=='undefined' && isSignedIn!=false){ %>
+                            <a class="btn btn-success" name="buy_now" id="buy_now">Add cart</a>
+                            <label for="buy_now" id='loadingmessage' style='display:none'>
+                                <img src='/images/ajax-loader.gif' />
                             </label>
-                        </div>
-
-                        <div class="hidden alert" style="margin-top: 5%;" id="alert-box-buy">
-                        </div>
-
+                            <a class="btn btn-primary" name="wishlist_now" id="wishlist_now">Add wish</a>
+                            <label for="wishlist_now" id='loadingmessage' style='display:none'>
+                                <img src='/images/ajax-loader.gif' />
+                            </label>
+                            <% }else{ %>
+                                <a class="btn btn-success" href="/auth/signin">Add To Cart</a>
+                                <% } %>
                     </div>
+                    <div class="col-md-6 mt-2">
+                        <label style="font-weight: bold;">Price: <%=product.price%>
+                                <%=product.currency%>
+                        </label>
+                    </div>
+
+                    <div class="hidden alert" style="margin-top: 5%;" id="alert-box-buy">
+                    </div>
+
                 </div>
             </div>
-            <% variants.forEach(variant=>{ %>
-                <input type="hidden" class="variation" variant_id="<%=variant['product_id']%>"
-                    color="<%=variant['variation_values'].color%>" size="<%=variant['variation_values'].size%>"
-                    width="<%=variant['variation_values'].width%>">
-                <%}) %>
         </div>
+        <% variants.forEach(variant=>{ %>
+            <input type="hidden" class="variation" variant_id="<%=variant['product_id']%>"
+                color="<%=variant['variation_values'].color%>" size="<%=variant['variation_values'].size%>"
+                width="<%=variant['variation_values'].width%>">
+            <%}) %>
+    </div>
 
-        <script>
+    <script>
 
-            let color = '';
-            let size = '';
-            let width = '';
-            let productId = document.getElementById('product_id').name;
-            let variantId = '';
-            let variations = document.getElementsByClassName('variation');
+        let color = '';
+        let size = '';
+        let width = '';
+        let productId = document.getElementById('product_id').name;
+        let variantId = '';
+        let variations = document.getElementsByClassName('variation');
 
-            function setValue(type, value) {
+        function setValue(type, value) {
 
-                type = type.toLowerCase().trim();
+            type = type.toLowerCase().trim();
 
-                if (type == "color") {
-                    color = value;
+            if (type == "color") {
+                color = value;
 
-                } else if (type == "size") {
-                    size = value;
+            } else if (type == "size") {
+                size = value;
 
-                }
-                else if (type == "width") {
-                    width = value;
+            }
+            else if (type == "width") {
+                width = value;
 
+            }
+        }
+
+        function setProductData() {
+
+            for (let i = 0; i < variations.length; i++) {
+
+                if ((variations[i].getAttribute('color') === color || variations[i].getAttribute('color').length == 0)
+                    && (variations[i].getAttribute('size') === size || variations[i].getAttribute('size').length == 0)
+                    && (variations[i].getAttribute('width') === width || variations[i].getAttribute('width').length == 0)) {
+
+                    variantId = variations[i].getAttribute('variant_id');
+                    return true;
                 }
             }
 
-            function setProductData() {
 
-                for (let i = 0; i < variations.length; i++) {
+            return false;
+        }
 
-                    if ((variations[i].getAttribute('color') === color || variations[i].getAttribute('color').length == 0)
-                        && (variations[i].getAttribute('size') === size || variations[i].getAttribute('size').length == 0)
-                        && (variations[i].getAttribute('width') === width || variations[i].getAttribute('width').length == 0)) {
+        $("#buy_now").on('click', function (e) {
+            e.preventDefault();
+            let alertBox = document.getElementById("alert-box-buy");
+            alertBox.classList.remove("alert-success", "alert-danger");
+            alertBox.innerText = "";
 
-                        variantId = variations[i].getAttribute('variant_id');
-                        return true;
-                    }
-                }
+            if (!setProductData()) {
+                alertBox.classList.add("alert-danger");
+                alertBox.innerText = "Item could not be added to your cart. The variant you selected might be out of stock. Check your selects."
+                alertBox.classList.remove("hidden");
+            }
+            else {
+                $('#loadingmessage').show();
+                $.ajax({
+                    type: 'POST',
+                    url: '/cart/addItem',
+                    data: {
+                        variantId: variantId,
+                        quantity: '1',
+                        productId: productId,
+                    },
+                    cache: false,
+                    success: (result) => {
+                        $('#loadingmessage').hide();
+                        alertBox.classList.add("alert-success")
+                        alertBox.innerText = "Item has successfully added to your cart";
+                        if (alertBox.classList.contains("hidden")) {
+                            alertBox.classList.remove("hidden");
+                        }
+                    },
+                    error: function (result) {
+                        $('#loadingmessage').hide();
+                        alertBox.classList.add("alert-danger");
+                        alertBox.innerText = result.responseText.replaceAll("\"", "");
+                        if (alertBox.classList.contains("hidden")) {
+                            alertBox.classList.remove("hidden");
+                        }
+                    },
 
-
-                return false;
+                });
             }
 
-            $("#buy_now").on('click', function (e) {
-                e.preventDefault();
-                let alertBox = document.getElementById("alert-box-buy");
-                alertBox.classList.remove("alert-success", "alert-danger");
-                alertBox.innerText = "";
-                if (!setProductData()) {
-                    alertBox.classList.add("alert-danger");
-                    alertBox.innerText = "Item could not be added. The variant you selected might be out of stock. Check your selects."
-                    alertBox.classList.remove("hidden");
-                }
-                else {
-                    $('#loadingmessage').show();
-                    $.ajax({
-                        type: 'POST',
-                        url: '/cart/addItem',
-                        data: {
-                            variantId: variantId,
-                            quantity: '1',
-                            productId: productId,
-                        },
-                        cache: false,
-                        success: (result) => {
-                            $('#loadingmessage').hide();
-                            alertBox.classList.add("alert-success")
-                            alertBox.innerText = "Item has successfully added to your cart";
-                            if (alertBox.classList.contains("hidden")) {
-                                alertBox.classList.remove("hidden");
-                            }
-                        },
-                        error: function (result) {
-                            $('#loadingmessage').hide();
-                            alertBox.classList.add("alert-danger");
-                            alertBox.innerText = result.responseText.replaceAll("\"", "");
-                            if (alertBox.classList.contains("hidden")) {
-                                alertBox.classList.remove("hidden");
-                            }
-                        },
 
-                    });
-                }
+        });
+
+        //wishlist 
+        $("#wishlist_now").on('click', function (e) {
+            e.preventDefault();
+            let alertBox = document.getElementById("alert-box-buy");
+            alertBox.classList.remove("alert-success", "alert-danger");
+            alertBox.innerText = "";
+
+            if (!setProductData()) {
+                alertBox.classList.add("alert-danger");
+                alertBox.innerText = "Item could not be added to your wishlist. The variant you selected might be out of stock. Check your selects."
+                alertBox.classList.remove("hidden");
+            }
+            else {
+                $('#loadingmessage').show();
+                $.ajax({
+                    type: 'POST',
+                    url: '/wishlist/addItem',
+                    data: {
+                        variantId: variantId,
+                        quantity: '1',
+                        productId: productId,
+                    },
+                    cache: false,
+                    success: (result) => {
+                        $('#loadingmessage').hide();
+                        alertBox.classList.add("alert-success")
+                        alertBox.innerText = "Item has successfully added to your wishlist";
+                        if (alertBox.classList.contains("hidden")) {
+                            alertBox.classList.remove("hidden");
+                        }
+                    },
+                    error: function (result) {
+                        $('#loadingmessage').hide();
+                        alertBox.classList.add("alert-danger");
+                        alertBox.innerText = result.responseText.replaceAll("\"", "");
+                        if (alertBox.classList.contains("hidden")) {
+                            alertBox.classList.remove("hidden");
+                        }
+                    },
+
+                });
+            }
 
 
-            });
+        });
 
-        </script>
+    </script>

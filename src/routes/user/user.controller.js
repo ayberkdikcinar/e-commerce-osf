@@ -1,13 +1,29 @@
 const cartModel = require('../../models/cart.model')
-
+const wishListModel = require('../../models/wishlist.model')
 async function renderProfile(req, res, next) {
     try {
-        const response = await cartModel.getCart(req.cookies.access_token);
-        res.render('profile.ejs', { userData: req.session.user, cartItemCount: response.data.items.length });
+        let wishListLen = 0;
+        let cartLen = 0;
+        const responseWish = await wishListModel.getWishlist(req.cookies.access_token);
+        const responseCart = await cartModel.getCart(req.cookies.access_token);
+
+        if (!responseWish.data.error) {
+            wishListLen = responseWish.data.items.length;
+        }
+        if (!responseCart.data.error) {
+            cartLen = responseCart.data.items.length;
+        }
+
+        res.render('profile.ejs', {
+            userData: req.cookies.user_data,
+            cartItemCount: cartLen,
+            wishItemCount: wishListLen
+        });
 
     } catch (error) {
         if (error.status == 400) {
-            res.render('profile.ejs', { userData: req.session.user, cartItemCount: 0 });
+            console.log(error);
+            res.render('profile.ejs', { userData: req.cookies.user_data, cartItemCount: 0, wishItemCount: 0 });
         }
         else {
             next(error);
