@@ -50,20 +50,26 @@
                         </div>
                 </div>
                 <div class="row d-flex justify-content-between" name="buy_price_row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <% if(typeof isSignedIn !=='undefined' && isSignedIn!=false){ %>
                             <a class="btn btn-success" name="buy_now" id="buy_now">Add cart</a>
                             <label for="buy_now" id='loadingmessage' style='display:none'>
                                 <img src='/images/ajax-loader.gif' />
                             </label>
-                            <a class="btn btn-primary" name="wishlist_now" id="wishlist_now">Add wish</a>
+                            <% }else{ %>
+                                <a class="btn btn-success" href="/auth/signin">Add cart</a>
+                                <% } %>
+                    </div>
+                    <div class="col-md-2">
+                        <% if(typeof isSignedIn !=='undefined' && isSignedIn!=false){ %>
+                            <a class="btn btn-info" name="wishlist_now" title="Add wish" id="wishlist_now"><i class="fa solid fa-star"></i></a>
                             <label for="wishlist_now" id='loadingmessage' style='display:none'>
                                 <img src='/images/ajax-loader.gif' />
                             </label>
                             <% }else{ %>
-                                <a class="btn btn-success" href="/auth/signin">Add To Cart</a>
+                                <a class="btn btn-info" href="/auth/signin"><i class="fa solid fa-star"></i></a>
                                 <% } %>
-                    </div>
+                    </div> 
                     <div class="col-md-6 mt-2">
                         <label style="font-weight: bold;">Price: <%=product.price%>
                                 <%=product.currency%>
@@ -138,6 +144,7 @@
                 alertBox.classList.remove("hidden");
             }
             else {
+                $('#buy_now').hide();
                 $('#loadingmessage').show();
                 $.ajax({
                     type: 'POST',
@@ -149,6 +156,7 @@
                     },
                     cache: false,
                     success: (result) => {
+                        $('#buy_now').show();
                         $('#loadingmessage').hide();
                         alertBox.classList.add("alert-success")
                         alertBox.innerText = "Item has successfully added to your cart";
@@ -157,6 +165,7 @@
                         }
                     },
                     error: function (result) {
+                        $('#buy_now').show();
                         $('#loadingmessage').hide();
                         alertBox.classList.add("alert-danger");
                         alertBox.innerText = result.responseText.replaceAll("\"", "");
@@ -166,6 +175,7 @@
                     },
 
                 });
+                
             }
 
 
@@ -185,6 +195,7 @@
             }
             else {
                 $('#loadingmessage').show();
+                $('#wishlist_now').hide();
                 $.ajax({
                     type: 'POST',
                     url: '/wishlist/addItem',
@@ -195,6 +206,7 @@
                     },
                     cache: false,
                     success: (result) => {
+                        $('#wishlist_now').show();
                         $('#loadingmessage').hide();
                         alertBox.classList.add("alert-success")
                         alertBox.innerText = "Item has successfully added to your wishlist";
@@ -203,6 +215,7 @@
                         }
                     },
                     error: function (result) {
+                        $('#wishlist_now').show();
                         $('#loadingmessage').hide();
                         alertBox.classList.add("alert-danger");
                         alertBox.innerText = result.responseText.replaceAll("\"", "");

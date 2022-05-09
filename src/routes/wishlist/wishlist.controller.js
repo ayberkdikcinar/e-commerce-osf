@@ -5,7 +5,7 @@ async function renderWishPage(req, res, next) {
     try {
 
         const responseWish = await wishListModel.getWishlist(req.cookies.access_token);
-        console.log(responseWish);
+        
         if (!responseWish.status || !responseWish.status.toString().startsWith('20')) {
             throw responseWish;
         }

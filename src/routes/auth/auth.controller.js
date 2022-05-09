@@ -44,6 +44,7 @@ async function postSignUp(req, res) {
         if (!response.status || !response.status.toString().startsWith('20')) {
             throw response;
         }
+        
         res.cookie('access_token', response.data.token, { httpOnly: true, secure: true, maxAge: 3600000 });
         res.cookie('user_data', {
             name: response.data.user.name,
@@ -59,10 +60,9 @@ async function postSignUp(req, res) {
 }
 
 async function signOut(req, res, next) {
-    try {
-
-        res.clearCookie('user_data');
+    try {      
         res.clearCookie('access_token');
+        res.clearCookie('user_data');
         res.redirect('/auth/signin');
 
     } catch (error) {

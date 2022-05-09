@@ -1,7 +1,6 @@
 const errorHandling = ((err, req, res, next) => {
     //console.log('Error handling inside');
     //return res.json({ 'message': err });
-    console.log(err);
     if ((err.status) == 400) {
         return res.status(400).render('error', { error: err.data.error });
     }
