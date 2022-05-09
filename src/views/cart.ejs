@@ -104,8 +104,11 @@
                                                 <div class="col">
                                                     <span>
                                                         <h5>
-                                                            <%=totalAmount.toString().substring(0,
-                                                                totalAmount.toString().indexOf('.')+3); %> USD
+                                                            <%if(totalAmount.toString().indexOf('.')!=-1) { %>
+                                                                <%=totalAmount.toString().substring(0,totalAmount.toString().indexOf('.')+3)%>
+                                                                    <%}else{ %>
+                                                                        <%=totalAmount.toString()%>
+                                                                            <%} %>USD
                                                         </h5>
                                                     </span>
                                                 </div>

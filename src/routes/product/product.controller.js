@@ -7,6 +7,7 @@ async function renderProductDetailPage(req, res, next) {
         if (!response.status || !response.status.toString().startsWith('20')) {
             throw response;
         }
+        productModel.addImageLinkExplicitly(response.data[0]);
         res.render('product_detail', { product: response.data[0] });
 
     } catch (error) {

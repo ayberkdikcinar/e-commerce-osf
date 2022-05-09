@@ -24,7 +24,7 @@ function addImageLinkExplicitly(product, color) {
                     break;
                 } else {
                     for (const image of product['image_groups'][i]['images']) {
-                        if (image.link.contains(color)) {
+                        if (image.link.toString().includes(color)) {
                             Object.assign(product, {
                                 image: image.link,
                             });

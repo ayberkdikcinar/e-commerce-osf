@@ -1,3 +1,21 @@
+<nav aria-label="breadcrumb justify-content-center">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <% if(!isParent){ %>
+            <li class="breadcrumb-item active"><a href="">
+                <%=parent.name%>                 
+                </a></li>
+            <% } %>
+                <% if(isParent){ %>
+                    <li class="breadcrumb-item active"><a href="/category/<%=categories[0].parent_category_id.split('-')[0]%>">                         
+                        <%=categories[0].parent_category_id.split('-')[0].charAt(0).toUpperCase()+ categories[0].parent_category_id.split('-')[0].slice(1)%>      
+                        </a></li>
+                    <li class="breadcrumb-item active"><a href="">
+                          <%=parent.name%>   
+                        </a></li>
+                    <% } %>
+    </ol>
+</nav>
 <div class="container-fluid wrapper" style="padding-bottom: 20px;">
     <h1 style="color: red;">
         <%=parent.name.toUpperCase() %>

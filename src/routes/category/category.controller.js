@@ -42,7 +42,15 @@ async function getCategoryDataWithParent(req, res, next) {
 }
 
 async function getAllCategories(req, res) {
-    return await categoryModel.getAllCategories();
+    try {
+        const response = await categoryModel.getAllCategories();
+        if (!response.status || !response.status.toString().startsWith('20')) {
+            throw response;
+        }
+    } catch (error) {
+        next(error);
+    }
+
 }
 
 module.exports = {

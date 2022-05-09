@@ -1,11 +1,22 @@
-<% const variations=product['variation_attributes']; const variants=product['variants']; const
-    images=product['image_groups']; let largeImage='' ; for(const image of images) { if(image['view_type']=='large' ){
-    largeImage=image['images'][0].link; break; } }%>
+<% const variations=product['variation_attributes']; const variants=product['variants'];%>
+
+    <nav aria-label="breadcrumb justify-content-center">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">
+                    Home</a></li>
+            <li class="breadcrumb-item"><a href="/product?primary_category_id=<%=product.primary_category_id%>">
+                     <%= product.primary_category_id.charAt(0).toUpperCase()+ product.primary_category_id.slice(1).replaceAll("-"," ") %>
+                </a></li>
+            <li class="breadcrumb-item active"><a href="">                   
+                        <%= product.name%>
+                </a></li>
+        </ol>
+    </nav>
 
     <div class="container" style="padding-bottom: 2%;">
         <div class="row justify-content-center">
             <div class="col-md-4">
-                <img src="/images/<%=largeImage%>" title="Light Hematite Bracelet, " class="img-fluid border">
+                <img src="/images/<%=product.image%>" title="Light Hematite Bracelet, " class="img-fluid border">
             </div>
             <div class="col-md-6">
                 <div class="row">
