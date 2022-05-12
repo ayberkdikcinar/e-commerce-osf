@@ -1,3 +1,4 @@
+<script src="https://js.stripe.com/v3/"></script>
 <% if (typeof error !=='undefined' ) { %>
     <div class="alert alert-danger" id="alert-box">
         <%= error %>
@@ -6,13 +7,23 @@
         <% if(typeof items !=='undefined' ){ %>
             <section class="h-100 gradient-custom">
                 <div class="container py-5">
+                    <h5 style="color: red;">SHOPPING CART</h5>
                     <div class="row d-flex justify-content-center my-4">
                         <div class="col-md-8">
                             <% for(let i=0; i<items.length; i++){ %>
                                 <div class="card">
                                     <div class="card-body">
+                                        <span class="item-quantity hidden">
+                                            <%= items[i].quantity%>
+                                        </span>
+                                        <span class="item-count hidden">
+                                            <%= items[i].length%>
+                                        </span>
+                                        <span class="item-price hidden">
+                                            <%= items[i]['variant'].price%>
+                                        </span>
                                         <div class="row d-flex justify-content-between mx-2">
-                                            <h6 style="font-weight: bold;">
+                                            <h6 style="font-weight: bold;" class="item-title">
                                                 <%= items[i].product_title %>
                                             </h6>
                                             <h6 style="font-weight: bolder;">
@@ -70,9 +81,10 @@
                                                     </i></span>
                                             </button>
                                             <form action="/cart/removeItem" method="post">
-                                                <input type="hidden" name="variantId"
+                                                <input type="hidden" name="variantId" class="item-variantId"
                                                     value="<%=items[i]['variant'].product_id%>">
-                                                <input type="hidden" name="productId" value="<%=items[i].productId%>">
+                                                <input type="hidden" name="productId" class="item-productId"
+                                                    value="<%=items[i].productId%>">
                                                 <button type="submit" class="btn btn-danger  me-1 mb-2 mx-2"
                                                     data-mdb-toggle="tooltip" title="Remove item">
                                                     <i class="fas fa-trash fa-xl"></i>
@@ -109,19 +121,58 @@
                                                     </span>
                                                 </div>
                                             </div>
-
                                         </li>
-
                                     </ul>
-
-                                    <button type="button" class="btn btn-success btn-lg btn-block">
+                                    <button type="button" class="btn btn-success btn-lg btn-block" id="buy_now">
                                         Buy Now
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </section>
             <% } %>
+                <script>
+                    const stripe = Stripe('<%=stripeId%>');
+                    const button = document.getElementById('buy_now')
+                    button.addEventListener("click", () => {
+                        var itemList = [];
+
+                        var itemVariantIds = document.getElementsByClassName('item-variantId');
+                        var itemProductIds = document.getElementsByClassName('item-productId');
+                        var itemPrices = document.getElementsByClassName('item-price');
+                        var itemQuantities = document.getElementsByClassName('item-quantity');
+                        var itemTitles = document.getElementsByClassName('item-title');
+
+                        for (var i = 0; i < itemVariantIds.length; i++) {
+                            itemList.push({
+                                product_id: itemVariantIds[i].value,
+                                productId: itemProductIds[i].value,
+                                price: itemPrices[i].innerText.trim(),
+                                quantity: itemQuantities[i].innerText.trim(),
+                                title: itemTitles[i].innerText.trim(),
+                            });
+                        }
+
+                        fetch("http://localhost:8000/order/purchase", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                itemList,
+                            }),
+                        }).then(response => {
+                            if (response.ok) {
+                                return response.json()
+                            }
+                            return response.json().then(json => Promise.reject(json))
+                        }).then(session => {
+                            return stripe.redirectToCheckout({ sessionId: session.id })
+                        }).catch(e => {
+                            console.log(e)
+                        });
+                    })
+
+                </script>

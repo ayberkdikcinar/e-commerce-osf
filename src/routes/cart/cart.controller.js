@@ -1,5 +1,6 @@
 const cartModel = require('../../models/cart.model')
 const productModel = require('../../models/product.model')
+require('dotenv').config();
 
 async function renderCartPage(req, res, next) {
     try {
@@ -28,14 +29,14 @@ async function renderCartPage(req, res, next) {
             totalAmount += items[i]['variant'].price;
         }
 
-        res.render('cart', { items: items, totalAmount: totalAmount })
+        res.render('cart', { items: items, totalAmount: totalAmount, stripeId: process.env.STRIPE_PUBLIC_KEY })
 
     } catch (error) {
         if (error.status == 400) {
             if (error.data.error == 'There is no cart created for this user') {
-                res.render('cart', { error: "Your cart is empty. Please add some items to your cart." });
+                res.render('cart', { error: "Your cart is empty. Please add some items to your cart.", stripeId: 0 });
             } else {
-                res.render('cart', { error: error.data.error });
+                res.render('cart', { error: error.data.error, stripeId: 0 });
             }
 
         } else {

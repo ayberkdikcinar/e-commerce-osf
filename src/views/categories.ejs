@@ -3,20 +3,22 @@
         <li class="breadcrumb-item"><a href="/">Home</a></li>
         <% if(!isParent){ %>
             <li class="breadcrumb-item active"><a href="">
-                <%=parent.name%>                 
+                    <%=parent.name%>
                 </a></li>
             <% } %>
                 <% if(isParent){ %>
-                    <li class="breadcrumb-item active"><a href="/category/<%=categories[0].parent_category_id.split('-')[0]%>">                         
-                        <%=categories[0].parent_category_id.split('-')[0].charAt(0).toUpperCase()+ categories[0].parent_category_id.split('-')[0].slice(1)%>      
+                    <li class="breadcrumb-item active"><a
+                            href="/category/<%=categories[0].parent_category_id.split('-')[0]%>">
+                            <%=categories[0].parent_category_id.split('-')[0].charAt(0).toUpperCase()+
+                                categories[0].parent_category_id.split('-')[0].slice(1)%>
                         </a></li>
                     <li class="breadcrumb-item active"><a href="">
-                          <%=parent.name%>   
+                            <%=parent.name%>
                         </a></li>
                     <% } %>
     </ol>
 </nav>
-<div class="container-fluid wrapper" style="padding-bottom: 20px;">
+<div class="container-fluid wrapper" style="padding-bottom: 2%;">
     <h1 style="color: red;">
         <%=parent.name.toUpperCase() %>
     </h1>
@@ -28,7 +30,7 @@
     </h6>
     <h3 style="color: red; font-weight:500;">Subcategories</h3>
     <%categories.forEach(function(category) { %>
-        <div class="wrapper" style="margin-bottom: 20px;">
+        <div class="wrapper" style="margin-bottom: 1%;">
             <div class=" bootstrap-card">
                 <div class="card-body">
                     <img class="card-img-top" src="/images/<%=category.image %>">

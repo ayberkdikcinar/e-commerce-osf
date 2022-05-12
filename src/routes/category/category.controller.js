@@ -41,7 +41,7 @@ async function getCategoryDataWithParent(req, res, next) {
 
 }
 
-async function getAllCategories(req, res) {
+async function getAllCategories(req, res, next) {
     try {
         const response = await categoryModel.getAllCategories();
         if (!response.status || !response.status.toString().startsWith('20')) {

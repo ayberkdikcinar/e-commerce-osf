@@ -1,85 +1,88 @@
 <nav aria-label="breadcrumb justify-content-center">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">
-                    Home</a></li>
-            <li class="breadcrumb-item"><a href="/category/<%=products[0].primary_category_id.split('-')[0]%>">
-                    <%=products[0].primary_category_id.split('-')[0].charAt(0).toUpperCase()+ products[0].primary_category_id.split('-')[0].slice(1)%></a></li>
-            <li class="breadcrumb-item"><a href="">
-                <%= products[0].primary_category_id.charAt(0).toUpperCase()+ products[0].primary_category_id.slice(1).replaceAll("-"," ") %>           
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">
+                Home</a></li>
+        <li class="breadcrumb-item"><a href="/category/<%=products[0].primary_category_id.split('-')[0]%>">
+                <%=products[0].primary_category_id.split('-')[0].charAt(0).toUpperCase()+
+                    products[0].primary_category_id.split('-')[0].slice(1)%>
+            </a></li>
+        <li class="breadcrumb-item"><a href="">
+                <%= products[0].primary_category_id.charAt(0).toUpperCase()+
+                    products[0].primary_category_id.slice(1).replaceAll("-"," ") %>           
                 </a></li>
         </ol>
     </nav>
-<div class="container-fluid" style="padding-bottom: 2%;">
-    <div class="row justify-content-center" id="content">
-        <%products.forEach((product)=> { %>
-            <div class="col-sm-offset-1" style="padding:2%">
-                <h5 class="card-title">
-                    <%=product.name %>
-                </h5>
-                <div class="card" style="width: 40rem;">
-                    <img class="card-img-top" src="\images\<%=product.image%> ">
-                    <div class="card-body">
-                        <p class="card-text-product">
-                            <%=product.page_description%>
-                        </p>
-                        <div class="row">
-                            <div class="col-md-6 text-center" style="margin-top: 0.7em;">
-                                <h6>Price:<%=product.price%>
-                                        <%= product.currency %>
-                                </h6>
+<div class=" container-fluid" style=" padding-bottom: 2%;">
+                    <div class="row justify-content-center" id="content">
+                        <%products.forEach((product)=> { %>
+                            <div class="col-sm-offset-1" style="margin:3%">
+                                <h5 class="card-title">
+                                    <%=product.name %>
+                                </h5>
+                                <div class="card" style="width: 35rem;">
+                                    <img class="card-img-top" src="\images\<%=product.image%> ">
+                                    <div class="card-body">
+                                        <p class="card-text-product">
+                                            <%=product.page_description%>
+                                        </p>
+                                        <div class="row">
+                                            <div class="col-md-6 text-center" style="margin-top: 0.7em;">
+                                                <h6>Price:<%=product.price%>
+                                                        <%= product.currency %>
+                                                </h6>
+                                            </div>
+                                            <div class="col-md-6 text-center">
+                                                <a href="/product/single?primary_category_id=<%=product.primary_category_id%>&id=<%=product.id%>"
+                                                    class="btn btn-success">More Info</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-6 text-center">
-                                <a href="/product/single?primary_category_id=<%=product.primary_category_id%>&id=<%=product.id%>"
-                                    class="btn btn-success">More Info</a>
-                            </div>
+                            <% }); %>
+                    </div>
+                    <div class="row <%= products.length<25 ? 'hidden' : '' %>" id="more_result_row">
+                        <div class="container" style="width:200px; padding-left: 2%;">
+                            <a class="btn btn-outline-primary" id='more_results'>More Results</a>
+                            <label for="more_results" id='loadingmessage' style='display:none'>
+                                <img src='/images/ajax-loader.gif' />
+                            </label>
                         </div>
                     </div>
-                </div>
-            </div>
-            <% }); %>
-    </div>
-    <div class="row <%= products.length<25 ? 'hidden' : '' %>" id="more_result_row">
-        <div class="container" style="width:200px; padding-left: 2%;">
-            <a class="btn btn-outline-primary" id='more_results'>More Results</a>
-            <label for="more_results" id='loadingmessage' style='display:none'>
-                <img src='/images/ajax-loader.gif' />
-            </label>
-        </div>
-    </div>
-</div>
+                    </div>
 
 
-<script>
-    let page = 2;
-    $("#more_results").on('click', function (e) {
-        $('#loadingmessage').show();
-        e.preventDefault();
-        $.ajax({
-            type: 'GET',
-            url: '/product/paginate',
-            data: 'primary_category_id=womens-clothing-tops&page=' + page,
-            cache: false,
-            success: addProductsViaDOM,
-            error: function (result) {
-                var rowOfButton = document.getElementById('more_result_row');
-                rowOfButton.classList.add('hidden');
-                $('#loadingmessage').hide();
-            },
+                    <script>
+                        let page = 2;
+                        $("#more_results").on('click', function (e) {
+                            $('#loadingmessage').show();
+                            e.preventDefault();
+                            $.ajax({
+                                type: 'GET',
+                                url: '/product/paginate',
+                                data: 'primary_category_id=womens-clothing-tops&page=' + page,
+                                cache: false,
+                                success: addProductsViaDOM,
+                                error: function (result) {
+                                    var rowOfButton = document.getElementById('more_result_row');
+                                    rowOfButton.classList.add('hidden');
+                                    $('#loadingmessage').hide();
+                                },
 
-        });
-    })
+                            });
+                        })
 
-    function addProductsViaDOM(products) {
-        $('#loadingmessage').hide();
-        for (const product of products) {
-            var div = document.getElementById('content');
-            var divWillBeAdded = document.createElement("div");
-            divWillBeAdded.className = "col-sm-offset-1";
-            divWillBeAdded.style.padding = '2%';
-            divWillBeAdded.innerHTML = `<h5 class="card-title">
+                        function addProductsViaDOM(products) {
+                            $('#loadingmessage').hide();
+                            for (const product of products) {
+                                var div = document.getElementById('content');
+                                var divWillBeAdded = document.createElement("div");
+                                divWillBeAdded.className = "col-sm-offset-1";
+                                divWillBeAdded.style.margin = '3%';
+                                divWillBeAdded.innerHTML = `<h5 class="card-title">
                                     ${product.name}
                                 </h5>
-                                <div class="card" style="width: 40rem;">
+                                <div class="card" style="width: 35rem;">
                                     <img class="card-img-top" src="/images/${product.image}">
                                     <div class="card-body">
                                         <p class="card-text-product">
@@ -99,8 +102,8 @@
                                     </div>
                                 </div>`
 
-            div.append(divWillBeAdded);
-        }
-        page++;
-    }
-</script>
+                                div.append(divWillBeAdded);
+                            }
+                            page++;
+                        }
+                    </script>

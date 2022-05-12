@@ -13,61 +13,42 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/stylesheets/style.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <title>Alibazon</title>
 </head>
 
 <body>
     <header>
-
-        <nav class="navbar navbar-expand-sm navbar-light bg-light">
-
-            <a class="navbar-brand text-success" href="/">
-                ALIBAZON
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+            <a href="/" class="navbar-brand" style="padding-right: 5%">ALIBAZON</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse"></div>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto text-center">
-
-                    <li class="nav-item <%= (isWomenCategoryEnabled) ? 'active' : 'deactive' %>">
-                        <a class="btn btn-block" style="width: 120px;" href="/category/womens">
-                            WOMEN
-                            <span class="sr-only">
-                                (current)
-                            </span>
-                        </a>
-                    </li>
-                    <% if(!isWomenCategoryEnabled && isWomenCategoryEnabled!=null) {%>
-                        <li class="nav-item active" style="padding-left:10px;">
-                            <% } else{ %>
-                        <li class="nav-item deactive" style="padding-left:10px;">
-                            <% } %>
-                                <a class="btn btn-block" style="width: 120px;" href="/category/mens">
-                                    MEN
-                                </a>
-                        </li>
-
-                </ul>
-                <form class="form-inline my-2 my-lg-0" style="padding-right: 20%;">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                <div class=" <%= (typeof isSignedIn !=='undefined' && isSignedIn!=false) ? '' : 'hidden'%>">
-                    <a href="/user/profile"><i class="fa-solid fa-user"
-                            style="font-size: x-large; color: green; padding-right: 20px;"></i></a>
+            <div class="collapse navbar-collapse justify-content-between" id="myNavbar">
+                <div class="navbar-nav">
+                    <a href="/category/womens"
+                        class="nav-item nav-link <%= (isWomenCategoryEnabled) ? 'active' : '' %>">WOMEN</a>
+                    <a href="/category/mens"
+                        class="nav-item nav-link <%= (!isWomenCategoryEnabled && isWomenCategoryEnabled!=null) ? 'active' : '' %>">MEN</a>
                 </div>
-                <% if(typeof isSignedIn !=='undefined' && isSignedIn!=false){ %>
-                    <a class="btn btn-success" href="/auth/signout">Sign out</a>
-                    <% }else{ %>
-                        <a class="btn btn-success" href="/auth/signin">Sign in</a>
-                        <% } %>
-
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+                <div class="navbar-nav">
+                    <% if(typeof isSignedIn !=='undefined' && isSignedIn!=false){ %>
+                        <a href="/user/profile" class="fa-solid fa-user fa-xl nav-item nav-link mt-2"></a>
+                        <a href="/auth/signout" class="nav-item nav-link">Sign Out</a>
+                        <% }else{ %>
+                            <a href="/auth/signin" class="nav-item nav-link">
+                                Sign In</a>
+                            <% } %>
+                </div>
             </div>
-
         </nav>
     </header>
