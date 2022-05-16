@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const expressLayout = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser');
 const app = express();
+const cors = require('cors');
 
 const { addParamsToResponse, addSignedInfo } = require('./middlewares/helper.middleware')
 const { authCheck } = require('./middlewares/auth.middleware');
@@ -18,6 +19,7 @@ const userRouter = require('./routes/user/user.router')
 const cartRouter = require('./routes/cart/cart.router')
 const wishListRouter = require('./routes/wishlist/wishlist.router')
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(cookieParser());
