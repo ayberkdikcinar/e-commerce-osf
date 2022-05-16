@@ -5,7 +5,7 @@ async function renderWishPage(req, res, next) {
     try {
 
         const responseWish = await wishListModel.getWishlist(req.cookies.access_token);
-        
+
         if (!responseWish.status || !responseWish.status.toString().startsWith('20')) {
             throw responseWish;
         }
@@ -33,9 +33,9 @@ async function renderWishPage(req, res, next) {
     } catch (error) {
         if (error.status == 400) {
             if (error.data.error == 'There is no wishlist created for this user') {
-                res.render('cart', { error: "Your wishlist is empty. Please add some items to your wishlist." });
+                res.status(400).render('wish', { error: "Your wishlist is empty. Please add some items to your wishlist." });
             } else {
-                res.render('cart', { error: error.data.error });
+                res.status(400).render('wish', { error: error.data.error });
             }
 
         } else {

@@ -6,8 +6,7 @@ const stripe = require('stripe')(stripeSecretKey)
 
 async function getOrders(req, res, next) {
     try {
-        const response = await orderModel.getOrders(req.cookies.access_token);
-        console.log(response);
+        await orderModel.getOrders(req.cookies.access_token);
         res.render('success_payment');
     } catch (error) {
         next(error);
