@@ -37,7 +37,7 @@ async function purchase(req, res, next) {
                 }
             }),
             success_url: `${process.env.PRODUCTION_URL}order/create-order?session_id={CHECKOUT_SESSION_ID}`, //http://localhost:8000/
-            cancel_url: `${process.env.PRODUCTION_URL}/cart/`//http://localhost:8000/',
+            cancel_url: `${process.env.PRODUCTION_URL}cart/`//http://localhost:8000/',
         })
         res.json({ id: session.id })
     } catch (e) {
