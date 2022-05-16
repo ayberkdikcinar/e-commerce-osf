@@ -63,38 +63,10 @@ describe('PRODUCT TESTS', () => {
                 }],
         };
 
-        productModel.addImageLinkExplicitly(product)
+        productModel.addImageLinkExplicitly(product, 'large')
         expect(product).toHaveProperty('image');
     });
 
-    test('Product  should has image property according to color explicitly', () => {
-        const product = {
-            "image_groups": [
-                {
-                    "images": [
-                        {
-                            "alt": "Open Cardigan., , large",
-                            "link": "products/large/PG.10256606.JJI15XX.PZ.jpg",
-                            "title": "Open Cardigan., "
-                        },
-                        {
-                            "alt": "Open Cardigan., , large",
-                            "link": "products/large/PG.10256606.JJI15XX.BZ.jpg",
-                            "title": "Open Cardigan., "
-                        },
-                        {
-                            "alt": "Open Cardigan., , large",
-                            "link": "products/large/PG.10256606.TESTTEST.BZ.jpg",
-                            "title": "Open Cardigan., "
-                        }
-                    ],
-                    "view_type": "large"
-                }],
-        };
-
-        productModel.addImageLinkExplicitly(product, 'TESTTEST')
-        expect(product.image).toStrictEqual('products/large/PG.10256606.TESTTEST.BZ.jpg');
-    });
 
     //ROUTER TESTS
 

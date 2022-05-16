@@ -19,7 +19,7 @@ async function renderCartPage(req, res, next) {
             if (!product.status || !product.status.toString().startsWith('20')) {
                 throw product;
             }
-            productModel.addImageLinkExplicitly(product.data[0]);
+            productModel.addImageLinkExplicitly(product.data[0], 'large');
 
             Object.assign(items[i], {
                 product_title: product.data[0].page_title,

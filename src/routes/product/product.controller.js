@@ -1,4 +1,5 @@
 const productModel = require('../../models/product.model')
+const search = require('../../services/search')
 
 async function renderProductDetailPage(req, res, next) {
 
@@ -7,7 +8,7 @@ async function renderProductDetailPage(req, res, next) {
         if (!response.status || !response.status.toString().startsWith('20')) {
             throw response;
         }
-        productModel.addImageLinkExplicitly(response.data[0]);
+        productModel.addImageLinkExplicitly(response.data[0], 'large');
         res.render('product_detail', { product: response.data[0] });
 
     } catch (error) {
@@ -24,7 +25,7 @@ async function renderProductPageWithProducts(req, res, next) {
             throw response;
         }
         for (let i = 0; i < response.data.length; i++) {
-            productModel.addImageLinkExplicitly(response.data[i]);
+            productModel.addImageLinkExplicitly(response.data[i], 'large');
         }
         res.render('products', { products: response.data })
 
@@ -34,6 +35,7 @@ async function renderProductPageWithProducts(req, res, next) {
 
 
 }
+
 async function getProductByCategoryId(req, res, next) {
 
     try {
@@ -43,7 +45,7 @@ async function getProductByCategoryId(req, res, next) {
             throw response;
         }
         for (let i = 0; i < response.data.length; i++) {
-            productModel.addImageLinkExplicitly(response.data[i]);
+            productModel.addImageLinkExplicitly(response.data[i], 'large');
         }
         res.json(response.data);
 
@@ -51,12 +53,22 @@ async function getProductByCategoryId(req, res, next) {
         next(error);
     }
 
+}
 
+function searchProduct(req, res) {
 
+    const products = search.searchProductByName(req.query.keyword);
+
+    if (products.length == 0) {
+        return res.status(404).render('error', { error: "Product not found." })
+    }
+
+    res.status(200).render('search', { "products": products });
 }
 
 module.exports = {
     renderProductDetailPage,
     renderProductPageWithProducts,
     getProductByCategoryId,
+    searchProduct
 }

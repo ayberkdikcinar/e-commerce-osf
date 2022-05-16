@@ -9,7 +9,7 @@ describe('CATEGORY TESTS', () => {
         expect(response.status).toBe(200);
     });
 
-    test('getCategoryByParentId with wrong id should respond with 400 bad request', async () => {
+    test('getCategoryByParentId with wrong id should respond with product not found', async () => {
         try {
             await categoryModel.getCategoryByParentId('33333333333333333');
         } catch (error) {
