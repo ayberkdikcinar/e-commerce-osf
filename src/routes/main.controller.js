@@ -7,11 +7,7 @@ async function renderIndexWithInitialCategoryData(req, res, next) {
         if (!response.status || !response.status.toString().startsWith('20')) {
             throw response;
         }
-        let authCheck = false;
-        if (req.cookies.access_token) {
-            authCheck = true;
-        }
-        res.render('index.ejs', { data: response.data, authCheck: authCheck })
+        res.render('index.ejs', { data: response.data })
 
     } catch (error) {
         next(error);

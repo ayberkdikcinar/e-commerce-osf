@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const cors = require('cors');
 
-const { addParamsToResponse, addSignedInfo } = require('./middlewares/helper.middleware')
+const { addEnabledCategoryInfo, addSignedInfo } = require('./middlewares/helper.middleware')
 const { authCheck } = require('./middlewares/auth.middleware');
 const error = require('./middlewares/errorHandler.middleware');
 
@@ -32,7 +32,7 @@ app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('layout', 'layout');
 app.use(expressLayout);
-app.use(addParamsToResponse);
+app.use(addEnabledCategoryInfo);
 app.use(addSignedInfo);
 
 app.use('/', mainRouter);

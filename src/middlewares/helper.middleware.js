@@ -1,7 +1,8 @@
 const helper = require('../services/helper')
 
 
-const addParamsToResponse = function (req, res, next) {
+//adding params to response locals for usage in the header ejs.
+const addEnabledCategoryInfo = function (req, res, next) {
 
     if (helper.checkUrlForIncludeString(req.url, 'womens')) {
         res.locals.isWomenCategoryEnabled = true;
@@ -17,7 +18,7 @@ const addParamsToResponse = function (req, res, next) {
 
 };
 
-const addSignedInfo = function (req, res, next) {
+const addSignedInfo = async function (req, res, next) {
     if (req.cookies.access_token) {
         res.locals.isSignedIn = true;
     }
@@ -28,6 +29,6 @@ const addSignedInfo = function (req, res, next) {
 }
 
 module.exports = {
-    addParamsToResponse,
+    addEnabledCategoryInfo,
     addSignedInfo,
 }

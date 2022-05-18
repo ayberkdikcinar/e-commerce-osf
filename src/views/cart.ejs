@@ -74,12 +74,12 @@
                                             </div>
                                         </div>
                                         <div class="row d-flex justify-content-end">
-                                            <button type="button" class="btn btn-secondary  me-1 mb-2 mx-2"
-                                                data-mdb-toggle="tooltip" title="More Info">More Info<span
-                                                    class="badge badge-secondary"><i
+                                            <a href="/product/single?primary_category_id=<%=items[i].primary_category_id%>&id=<%=items[i].productId%>"
+                                                class="btn btn-secondary  me-1 mb-2 mx-2" data-mdb-toggle="tooltip"
+                                                title="More Info">More Info<span class="badge badge-secondary"><i
                                                         class="fa-solid fa-circle-info fa-xl">
                                                     </i></span>
-                                            </button>
+                                            </a>
                                             <form action="/cart/removeItem" method="post">
                                                 <input type="hidden" name="variantId" class="item-variantId"
                                                     value="<%=items[i]['variant'].product_id%>">

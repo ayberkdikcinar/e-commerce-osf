@@ -42,8 +42,15 @@
                 </form>
                 <div class="navbar-nav">
                     <% if(typeof isSignedIn !=='undefined' && isSignedIn!=false){ %>
-                        <a href="/user/profile" class="fa-solid fa-user fa-xl nav-item nav-link mt-2"></a>
+                        <a href="/cart" class=" nav-item nav-link"><i class="fa-solid fa-cart-shopping fa-xl  ml-3"
+                                style="color: black;"></i>
+                        </a>
+                        <a href="/wishlist" class=" nav-item nav-link"><i
+                                class="fa-regular fa-rectangle-list fa-xl ml-3" style="color: black;"></i>
+                        </a>
+                        <a href="/user/profile" class="fa-solid fa-user fa-xl nav-item nav-link mt-2 ml-3"></a>
                         <a href="/auth/signout" class="nav-item nav-link">Sign Out</a>
+
                         <% }else{ %>
                             <a href="/auth/signin" class="nav-item nav-link">
                                 Sign In</a>
