@@ -2,7 +2,7 @@ const orderModel = require('../../models/order.model')
 require('dotenv').config();
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY
 const stripe = require('stripe')(stripeSecretKey)
-
+const Sentry = require('@sentry/node');
 
 async function getOrders(req, res, next) {
     try {
@@ -41,6 +41,7 @@ async function purchase(req, res, next) {
         })
         res.json({ id: session.id })
     } catch (e) {
+        Sentry.captureException(e);
         next(e);
     }
 }
@@ -82,6 +83,7 @@ async function createOrder(req, res, next) {
         res.redirect('/order');
 
     } catch (error) {
+        Sentry.captureException(error);
         next(error);
     }
 

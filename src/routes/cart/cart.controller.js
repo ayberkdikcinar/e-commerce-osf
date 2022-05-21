@@ -1,5 +1,7 @@
 const cartModel = require('../../models/cart.model')
 const productModel = require('../../models/product.model')
+const createError = require('http-errors');
+const Sentry = require('@sentry/node');
 require('dotenv').config();
 
 async function renderCartPage(req, res, next) {
@@ -9,7 +11,7 @@ async function renderCartPage(req, res, next) {
         const responseCart = await cartModel.getCart(req.cookies.access_token);
 
         if (!responseCart.status || !responseCart.status.toString().startsWith('20')) {
-            throw responseCart;
+            throw new createError(responseCart.status, responseCart.data.error);
         }
         const items = responseCart.data.items;
 
@@ -17,7 +19,7 @@ async function renderCartPage(req, res, next) {
             const product = await productModel.getProductById(items[i].productId);
 
             if (!product.status || !product.status.toString().startsWith('20')) {
-                throw product;
+                throw new createError(product.status, product.data.error);
             }
             productModel.addImageLinkExplicitly(product.data[0], 'large');
 
@@ -33,13 +35,14 @@ async function renderCartPage(req, res, next) {
 
     } catch (error) {
         if (error.status == 400) {
-            if (error.data.error == 'There is no cart created for this user') {
+            if (error.message == 'There is no cart created for this user') {
                 res.status(400).render('cart', { error: "Your cart is empty. Please add some items to your cart.", stripeId: 0 });
             } else {
                 res.status(400).render('cart', { error: error.data.error, stripeId: 0 });
             }
 
         } else {
+            Sentry.captureException(error);
             next(error);
         }
 
@@ -51,12 +54,13 @@ async function addItem(req, res) {
         const item = req.body;
         const response = await cartModel.addItem(item, req.cookies.access_token);
         if (!response.status || !response.status.toString().startsWith('20')) {
-            throw response;
+            throw new createError(response.status, response.data.error);
         }
         res.status(201).json(response.data);
 
     } catch (error) {
-        res.status(400).json(error.data.error);
+        Sentry.captureException(error);
+        res.status(400).json(error.message);
     }
 
 }
@@ -66,15 +70,14 @@ async function changeQuantityOfItem(req, res) {
         const data = req.body;
         const response = await cartModel.changeQuantityOfItem(data, req.cookies.access_token);
         if (!response.status || !response.status.toString().startsWith('20')) {
-            throw response;
+            throw new createError(response.status, response.data.error);
         }
         res.status(200).json(response.data);
 
     } catch (error) {
-        res.status(400).json(error.data.error);
+        Sentry.captureException(error);
+        res.status(400).json(error.message);
     }
-
-    //res.json(JSON.stringify(response));
 }
 
 async function removeItem(req, res) {
@@ -86,15 +89,14 @@ async function removeItem(req, res) {
         const response = await cartModel.removeItem(item, req.cookies.access_token);
 
         if (!response.status || !response.status.toString().startsWith('20')) {
-            throw response;
+            throw new createError(response.status, response.data.error);
         }
         res.redirect('/cart');
 
     } catch (error) {
-        res.status(400).json(error.data.error);
+        Sentry.captureException(error);
+        res.status(400).json(error.message);
     }
-
-    //res.json(JSON.stringify(response));
 }
 
 module.exports = {

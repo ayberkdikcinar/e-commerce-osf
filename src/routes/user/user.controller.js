@@ -13,7 +13,6 @@ async function renderProfile(req, res, next) {
 
     } catch (error) {
         if (error.status == 400) {
-            console.log(error);
             res.status(400).render('profile.ejs', { userData: req.cookies.user_data, cartItemCount: 0, wishItemCount: 0 });
         }
         else {

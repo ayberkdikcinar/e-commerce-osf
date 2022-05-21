@@ -3,8 +3,11 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const expressLayout = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser');
-const app = express();
+
 const cors = require('cors');
+
+const Sentry = require('@sentry/node');
+const Tracing = require("@sentry/tracing")
 
 const { addEnabledCategoryInfo, addSignedInfo } = require('./middlewares/helper.middleware')
 const { authCheck } = require('./middlewares/auth.middleware');
@@ -18,6 +21,18 @@ const orderRouter = require('./routes/order/order.router')
 const userRouter = require('./routes/user/user.router')
 const cartRouter = require('./routes/cart/cart.router')
 const wishListRouter = require('./routes/wishlist/wishlist.router')
+
+require('dotenv').config();
+const app = express();
+
+Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [
+        new Sentry.Integrations.Http({ tracing: true }),
+        new Tracing.Integrations.Express({ app }),
+    ],
+    tracesSampleRate: 1.0,
+});
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -35,6 +50,9 @@ app.use(expressLayout);
 app.use(addEnabledCategoryInfo);
 app.use(addSignedInfo);
 
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
+
 app.use('/', mainRouter);
 app.use('/auth', authRouter);
 app.use('/category', categoryRouter);
@@ -43,6 +61,8 @@ app.use('/user', authCheck, userRouter);
 app.use('/order', authCheck, orderRouter);
 app.use('/cart', authCheck, cartRouter);
 app.use('/wishlist', authCheck, wishListRouter);
+
+app.use(Sentry.Handlers.errorHandler());
 app.use(error.errorHandling);
 app.use(error.notFoundPage);
 module.exports = app;
