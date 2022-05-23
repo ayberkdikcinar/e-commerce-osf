@@ -42,7 +42,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 
-app.use(express.static(path.join(__dirname, '..', 'public')));;
+app.use(express.static(path.join(__dirname, '..', 'public')));
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('layout', 'layout');
@@ -65,4 +65,5 @@ app.use('/wishlist', authCheck, wishListRouter);
 app.use(Sentry.Handlers.errorHandler());
 app.use(error.errorHandling);
 app.use(error.notFoundPage);
+
 module.exports = app;
